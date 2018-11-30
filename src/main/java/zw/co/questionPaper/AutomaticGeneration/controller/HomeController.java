@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import zw.co.questionPaper.AutomaticGeneration.domain.User;
+import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
+import zw.co.questionPaper.AutomaticGeneration.repository.UserRepository;
 
 
 import javax.inject.Inject;
@@ -22,6 +25,11 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
+
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String root() {
@@ -59,14 +67,8 @@ public class HomeController {
         ModelAndView model = new ModelAndView();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
-//        TeacherDetails teacherDetails = teacherRepository.findByEmail(name);
-//        System.out.println("=======================NAME++==================" + name);
-//        System.out.println("=======================TEACHER++==================" + teacherDetails);
-//        School school = schoolRepository.getOne(teacherDetails.getSchool().getId());
-//
-//        System.out.println("=======================SCHOOL++==================" + school);
-//        model.addObject("username", name);
-//        model.addObject("students", studentRepository.findAllBySchool(school));
+        User user = userRepository.findByEmail(name);
+        model.addObject("courses", courseRepository.findAllByUser(user));
         model.setViewName("lecturer/home");
         return model;
     }
