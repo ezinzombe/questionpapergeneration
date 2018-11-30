@@ -1,6 +1,8 @@
 package zw.co.questionPaper.AutomaticGeneration.controller.lecturer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zw.co.questionPaper.AutomaticGeneration.domain.Chapter;
 import zw.co.questionPaper.AutomaticGeneration.domain.Topic;
+import zw.co.questionPaper.AutomaticGeneration.domain.User;
 import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
 import zw.co.questionPaper.AutomaticGeneration.repository.TopicRepository;
+import zw.co.questionPaper.AutomaticGeneration.repository.UserRepository;
 
 /**
  * Created by zinzombe on Oct
@@ -24,6 +28,8 @@ public class TopicController {
     private TopicRepository topicRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value = {"/add", "/add/{id}"}, method = RequestMethod.GET)
     public String add(@RequestParam(required = false) Long id, Model model) {
@@ -33,9 +39,12 @@ public class TopicController {
         } else {
             topic = new Topic();
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        User user = userRepository.findByEmail(name);
         model.addAttribute("topic", topic);
         model.addAttribute("title", "Create/ Edit Topic");
-        model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("courses", courseRepository.findAllByUser(user));
         model.addAttribute("chapters", Chapter.asList());
         return "lecturer/topic/add";
     }
@@ -57,7 +66,11 @@ public class TopicController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
-        Iterable<Topic> topics = topicRepository.findAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        User user = userRepository.findByEmail(name);
+        Iterable<Topic> topics = topicRepository.findAllByCourseUser(user);
+        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe"+user);
         model.addAttribute("topics", topics);
         return "lecturer/topic/list";
     }

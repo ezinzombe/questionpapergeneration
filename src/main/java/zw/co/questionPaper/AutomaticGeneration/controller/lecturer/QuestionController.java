@@ -57,11 +57,14 @@ public class QuestionController {
     public String save(@ModelAttribute("question") @Validated Question question,
                        BindingResult result, SessionStatus status, Model model,
                        final RedirectAttributes redirectAttributes) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        User user = userRepository.findByEmail(name);
         //Check validation errors
         if (result.hasErrors()) {
             model.addAttribute("priorities", Priority.values());
             model.addAttribute("questionTypes", QuestionType.values());
-            model.addAttribute("topics", topicRepository.findAll());
+            model.addAttribute("topics", topicRepository.findAllByCourseUser(user));
             return "lecturer/question/add";
         } else {
             redirectAttributes.addFlashAttribute("css", "success");
@@ -73,8 +76,11 @@ public class QuestionController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
-        Iterable<Question> topics = questionRepository.findAll();
-        model.addAttribute("topics", topics);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        User user = userRepository.findByEmail(name);
+        Iterable<Question> questions = questionRepository.findAllByTopicCourseUser(user);
+        model.addAttribute("topics", questions);
         return "lecturer/question/list";
     }
 
@@ -83,7 +89,10 @@ public class QuestionController {
         model.addAttribute("question", questionRepository.findById(id).get());
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("questionTypes", QuestionType.values());
-        model.addAttribute("topics", topicRepository.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        User user = userRepository.findByEmail(name);
+        model.addAttribute("topics", topicRepository.findAllByCourseUser(user));
         return "lecturer/question/edit";
     }
 

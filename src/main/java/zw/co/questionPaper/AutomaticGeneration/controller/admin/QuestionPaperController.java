@@ -2,15 +2,11 @@ package zw.co.questionPaper.AutomaticGeneration.controller.admin;
 
 
 import org.springframework.web.bind.annotation.*;
-import zw.co.questionPaper.AutomaticGeneration.controller.MediaTypeUtils;
 import zw.co.questionPaper.AutomaticGeneration.controller.admin.pdf.PDFGenerator;
 
 import zw.co.questionPaper.AutomaticGeneration.domain.Question;
-import zw.co.questionPaper.AutomaticGeneration.domain.QuestionCollection;
 import zw.co.questionPaper.AutomaticGeneration.domain.Topic;
 import zw.co.questionPaper.AutomaticGeneration.repository.QuestionRepository;import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import zw.co.questionPaper.AutomaticGeneration.repository.TopicRepository;
-
-import javax.servlet.ServletContext;
-
-import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 
 @RestController
 @RequestMapping("/api/pdf")
