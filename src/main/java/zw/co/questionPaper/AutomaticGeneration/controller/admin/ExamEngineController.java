@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import zw.co.questionPaper.AutomaticGeneration.Difficulty;
 import zw.co.questionPaper.AutomaticGeneration.domain.*;
 import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
 import zw.co.questionPaper.AutomaticGeneration.repository.DepartmentRepository;
@@ -30,7 +29,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static zw.co.questionPaper.AutomaticGeneration.Difficulty.*;
 
 @Controller
 @RequestMapping("/admin/generate")
