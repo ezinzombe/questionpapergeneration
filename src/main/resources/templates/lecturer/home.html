@@ -1,0 +1,58 @@
+
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="fragments/headerLecturer"></th:block>
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li class="active">My Courses</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content mt-3">
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+
+            <table id="roleListTable" th:inline="none" cellspacing="0" width="100%" class="table table-striped">
+                <br/>
+                <span th:utext="${successMessage}" class="text-success"></span>
+                <thead>
+                <tr>
+                    <th scope="col">Course Name </th>
+                    <th scope="col">Course Code</th>
+
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="course : ${courses}">
+                    <td th:text="${course.name}"></td>
+                    <td th:text="${course.courseCode}"></td>
+
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+</div>
+<div th:include="fragments/footer"></div>

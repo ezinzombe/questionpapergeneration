@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="fragments/headerLecturer"></th:block>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+
+
+
+            <div class="col-md-2"></div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header"><strong>Topic</strong>
+                        <small> Form</small>
+                    </div>
+                    <div class="card-body card-block">
+
+
+                        <form autocomplete="off" class="sky-form" th:object="${topic}" method="post"
+                              th:action="@{/lecturer/topic/save}" role="form">
+                            <input type="hidden" th:field="*{id}"/>
+
+
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="name" name="name" th:field="*{name}"
+                                       required=""      aria-describedby="emailHelp" placeholder="Enter topic name">
+                            </div>
+                            <div class="form-group">
+                                <label>Select Chapter </label>
+                                <select class="form-control" required="required" th:field="*{chapter}">
+                                    <option th:each="chapter : ${chapters}"
+                                            th:value="${{chapter.name}}"
+                                            th:text="${chapter.name}">
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Select Course </label>
+                                <select class="form-control" required="required" th:field="*{course}">
+                                    <option value="">----Select----</option>
+                                    <option th:each="course : ${courses}"
+                                            th:value="${{course.id}}"
+                                            th:text="${course.name}">
+                                    </option>
+                                </select>
+                            </div>
+
+
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                                <button type="reset" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+
+                        </form>
+                        <span th:utext="${successMessage}">
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+    </div>
+</div>
+</div>
+<div th:include="fragments/footer"></div>
