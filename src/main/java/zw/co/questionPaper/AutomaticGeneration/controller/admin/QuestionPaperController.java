@@ -42,7 +42,7 @@ public class QuestionPaperController {
         List<Question> questions = new ArrayList<>();
         List<Question> questions1 = new ArrayList<>();
         for (Topic t : topics) {
-            questions1 = questionRepository.findAllByTopicName(t.getName());
+            questions1 = questionRepository.findAllByTopicNameAndPeriodName(t.getName(), examDTO.getPeriodName());
             questions.addAll(questions1);
 
         }

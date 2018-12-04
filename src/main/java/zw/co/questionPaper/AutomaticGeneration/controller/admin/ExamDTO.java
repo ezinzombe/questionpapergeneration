@@ -9,6 +9,15 @@ public class ExamDTO {
     private String name;
     private String id;
     private String courseName;
+    private String periodName;
+
+    public String getPeriodName() {
+        return periodName;
+    }
+
+    public void setPeriodName(String periodName) {
+        this.periodName = periodName;
+    }
 
     public String getCourseName() {
         return courseName;

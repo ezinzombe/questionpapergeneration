@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:include="fragments/headerLecturer"></th:block>
+<th:block th:include="fragments/header"></th:block>
 
 <div class="content mt-3">
     <div class="animated fadeIn">
@@ -12,7 +12,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>Questions</h1>
+                            <h1>Periods</h1>
                         </div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                     <div class="page-header float-right">
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
-                                <li><a href="#">Question</a></li>
+                                <li><a href="#">Period</a></li>
                                 <li class="active">List</li>
                             </ol>
                         </div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <a class="btn btn-primary " th:href="@{/lecturer/question/add}">New Question</a>
+            <a class="btn btn-primary " th:href="@{/admin/period/add}">New Period</a>
 
             <br/>
             <br/>
@@ -39,10 +39,9 @@
                 <span th:utext="${successMessage}" class="text-success"></span>
                 <thead>
                 <tr>
-                    <th scope="col">Course Name</th>
-                    <th scope="col">Question Name</th>
-                    <th scope="col">Marks</th>
-                    <th scope="col">University Period</th>
+                    <th>Period Name</th>
+                    <th>Period Start Date</th>
+                    <th>Period End Date</th>
                     <th scope="col">Update</th>
                     <th scope="col">Delete</th>
 
@@ -50,14 +49,13 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="question : ${topics}">
-                    <td th:text="${question.topic.course.name}"></td>
-                    <td th:text="${question.name}"></td>
-                    <td th:text="${question.marks}"></td>
-                    <td th:text="${question.period.name}"></td>
-                    <td><a th:href="@{'/lecturer/question/update/' + ${question.id}}" class="btn btn-warning">Update</a></h2>
+                <tr th:each="period : ${periods}">
+                    <td th:text="${period.name}"></td>
+                    <td th:text="${period.startDate}"></td>
+                    <td th:text="${period.endDate}"></td>
+                    <td><a th:href="@{'/admin/period/update/' + ${period.id}}" class="btn btn-warning">Update</a></h2>
                     </td>
-                    <td><a th:href="@{'/lecturer/question/delete/' + ${question.id}}"
+                    <td><a th:href="@{'/admin/period/delete/' + ${period.id}}"
                            onclick="return confirm('Are you sure you want to delete this!!!!')" class="btn btn-danger">Delete</a></h2>
                     </td>
 

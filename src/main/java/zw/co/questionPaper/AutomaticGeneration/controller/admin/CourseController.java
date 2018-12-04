@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zw.co.questionPaper.AutomaticGeneration.domain.Course;
+import zw.co.questionPaper.AutomaticGeneration.domain.Level;
+import zw.co.questionPaper.AutomaticGeneration.domain.QuestionType;
 import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
 import zw.co.questionPaper.AutomaticGeneration.repository.DepartmentRepository;
 import zw.co.questionPaper.AutomaticGeneration.repository.UserRepository;
@@ -42,15 +44,17 @@ public class CourseController {
         model.addAttribute("title", "Create/ Edit Course");
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("levels", Level.values());
         return "admin/course/add";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@ModelAttribute("course") @Validated Course course,
                        BindingResult result, SessionStatus status,
-                       final RedirectAttributes redirectAttributes) throws Exception {
+                       final RedirectAttributes redirectAttributes, Model model) throws Exception {
         //Check validation errors
         if (result.hasErrors()) {
+            model.addAttribute("levels", Level.values());
             return "admin/course/add";
         } else {
             redirectAttributes.addFlashAttribute("css", "success");
@@ -72,6 +76,7 @@ public class CourseController {
         model.addAttribute("course", courseRepository.findById(id).get());
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("levels", Level.values());
         return "admin/course/edit";
     }
 

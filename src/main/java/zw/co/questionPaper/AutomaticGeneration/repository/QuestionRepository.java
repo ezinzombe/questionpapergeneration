@@ -10,7 +10,9 @@ import java.util.List;
 public interface QuestionRepository extends CrudRepository<Question,Long> {
 
 
-    List<Question> findAllByTopicName (String topicName);
+    List<Question> findAllByTopicNameAndPeriodName (String topicName, String periodName);
 
     List<Question> findAllByTopicCourseUser(User user);
+
+    List<Question> findAllByPeriodName (String periodName);
 }

@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zw.co.questionPaper.AutomaticGeneration.domain.*;
-import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.QuestionRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.TopicRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.UserRepository;
+import zw.co.questionPaper.AutomaticGeneration.repository.*;
 
 /**
  * Created by zinzombe on Oct
@@ -31,6 +28,8 @@ public class QuestionController {
     private TopicRepository topicRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PeriodRepository periodRepository;
 
     @RequestMapping(value = {"/add", "/add/{id}"}, method = RequestMethod.GET)
     public String add(@RequestParam(required = false) Long id, Model model) {
@@ -48,6 +47,7 @@ public class QuestionController {
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("questionTypes", QuestionType.values());
         model.addAttribute("courses", courseRepository.findAllByUser(user));
+        model.addAttribute("periods", periodRepository.findAll());
         System.out.println("################################"+user);
         model.addAttribute("topics", topicRepository.findAllByCourseUser(user));
         return "lecturer/question/add";
@@ -92,6 +92,7 @@ public class QuestionController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
         User user = userRepository.findByEmail(name);
+        model.addAttribute("periods", periodRepository.findAll());
         model.addAttribute("topics", topicRepository.findAllByCourseUser(user));
         return "lecturer/question/edit";
     }

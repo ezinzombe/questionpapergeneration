@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zw.co.questionPaper.AutomaticGeneration.domain.*;
-import zw.co.questionPaper.AutomaticGeneration.repository.CourseRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.DepartmentRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.QuestionRepository;
-import zw.co.questionPaper.AutomaticGeneration.repository.TopicRepository;
+import zw.co.questionPaper.AutomaticGeneration.repository.*;
 import zw.co.questionPaper.AutomaticGeneration.util.GeneratePdfReport;
 
 import java.io.ByteArrayInputStream;
@@ -41,6 +38,9 @@ public class ExamEngineController {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Autowired
+    private PeriodRepository periodRepository;
+
     private List<Question> easyQuestions = new ArrayList<>();
     private List<Question> mediumQuestions = new ArrayList<>();
     private List<Question> hardQuestions = new ArrayList<>();
@@ -49,6 +49,7 @@ public class ExamEngineController {
     public String list(Model model) {
         List<Course> courses = courseRepository.findAll();
         model.addAttribute("courses", courses);
+        model.addAttribute("periods", periodRepository.findAll());
         model.addAttribute("examDTO", new ExamDTO());
         return "admin/generate/list";
     }
@@ -74,7 +75,7 @@ public class ExamEngineController {
         List<Question> questions = new ArrayList<>();
         List<Question> questions1 = new ArrayList<>();
         for (Topic t : topics) {
-            questions1 = questionRepository.findAllByTopicName(t.getName());
+//            questions1 = questionRepository.findAllByTopicName(t.getName());
             questions.addAll(questions1);
 
         }

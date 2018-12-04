@@ -1,7 +1,9 @@
 package zw.co.questionPaper.AutomaticGeneration.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyEnumerated;
 
 /**
  * Created by zinzombe on Sep
@@ -14,6 +16,17 @@ public class Course extends BaseEntityId {
     private String courseCode;
     private Department department;
     private User user;
+    @Enumerated
+    private Level level;
+
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
     @ManyToOne
     public User getUser() {

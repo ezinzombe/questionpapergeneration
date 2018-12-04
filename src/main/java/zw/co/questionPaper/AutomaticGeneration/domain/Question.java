@@ -18,6 +18,7 @@ public class Question  extends BaseEntityId{
     private Priority priority;
 
     private Topic topic;
+    private Period period;
     private Double marks;
 
     public Double getMarks() {
@@ -44,6 +45,15 @@ public class Question  extends BaseEntityId{
         this.priority = priority;
     }
 
+
+    @ManyToOne
+    public Period getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
 
     @ManyToOne
     public Topic getTopic() {

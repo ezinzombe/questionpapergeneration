@@ -1,11 +1,13 @@
 package zw.co.questionPaper.AutomaticGeneration.controller.admin.pdf;
 
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.sun.scenario.effect.ImageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ public class PDFGenerator {
 
         String examName= questions.stream().findFirst().get().getTopic().getCourse().getName();
         String examCode= questions.stream().findFirst().get().getTopic().getCourse().getCourseCode();
+        String facultyName = questions.stream().findFirst().get().getTopic().getCourse().getDepartment().getFaculty().getName();
+        String periodName = questions.stream().findFirst().get().getPeriod().getName();
+
         Random random = new Random();
         final String RESULT
                 = "/home/ezinzombe/Maricho/questionpapergeneration-november/src/main/resources/exams/"+examName+random.nextInt(15)+".pdf";
@@ -34,28 +39,89 @@ public class PDFGenerator {
 
         try {
 
-            PdfWriter.getInstance(document, out);
-            PdfWriter.getInstance(document, new FileOutputStream(RESULT));
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+            writer.getInstance(document, new FileOutputStream(RESULT));
+            writer.setStrictImageSequence(true);
 
             document.open();
 
-            // Add Text to PDF file ->
             Font font = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
-            Paragraph para = new Paragraph( "Women University In Africa:" +" "+examName+" " + "2018 December Exams", font);
+            Font bold = FontFactory.getFont(FontFactory.COURIER_BOLD, 18, BaseColor.BLACK);
+            Font italics = FontFactory.getFont(FontFactory.TIMES_ITALIC, 12, BaseColor.BLACK);
+
+
+            Paragraph para = new Paragraph( "WOMEN'S UNIVERSITY IN AFRICA", bold);
             para.setAlignment(Element.ALIGN_CENTER);
             document.add(para);
+
+
+
+
+            Paragraph p = new Paragraph(" ");
+            DottedLineSeparator dottedline = new DottedLineSeparator();
+            dottedline.setOffset(-2);
+            dottedline.setGap(2000f);
+            p.add(dottedline);
+            p.setSpacingBefore(240f);
+            document.add(p);
+
+
+            Paragraph addre = new Paragraph( "Addressing gender disparity and fostering equity in University Education", italics);
+            addre.setAlignment(Element.ALIGN_CENTER);
+            DottedLineSeparator ottedline = new DottedLineSeparator();
+            ottedline.setOffset(-2);
+            ottedline.setGap(2000f);
+            addre.add(ottedline);
+            document.add(addre);
+
+            Paragraph p222 = new Paragraph(" ");
+            DottedLineSeparator dotted = new DottedLineSeparator();
+            dotted.setOffset(-2);
+            dotted.setGap(2f);
+            p222.add(dotted);
+            p222.setSpacingBefore(5f);
+            document.add(p222);
+
+
+
+            document.add(Chunk.NEWLINE);
             Image image = Image.getInstance("/home/ezinzombe/Maricho/questionpapergeneration-november/src/main/resources/static/images/logo.jpeg");
             image.setAbsolutePosition(200f, 550f);
 
             document.add(image);
 
-            para.setSpacingAfter(800f);
-            document.add(Chunk.NEWLINE);
-            document.add(new Paragraph("EXAM NAME : "+ examName));
-            document.add(new Paragraph("COURSE CODE : "+ examCode));
-            document.add(new Paragraph("TIME ALLOWED : 3 HOURS"));
-            document.add(new Paragraph("SPECIAL REQUIREMENTS: NONE"));
 
+            Paragraph facultyNam= new Paragraph(facultyName);
+            facultyNam.setAlignment(Element.ALIGN_CENTER);
+            document.add(facultyNam);
+
+
+
+            Paragraph paper  = new Paragraph( "MAIN PAPER " + " "+" ", font);
+            paper.setSpacingBefore(50f);
+            paper.setAlignment(Element.ALIGN_CENTER);
+            document.add(paper);
+
+            Date date = new Date();
+            Paragraph name = new Paragraph( examCode+" : "+"   "+" "+ examName, font);
+            name.setSpacingBefore(50f);
+            document.add(name);
+
+            Paragraph intake  = new Paragraph( "INTAKE: " + " "+" " + periodName, font);
+            intake.setSpacingBefore(50f);
+            document.add(intake);
+
+            Paragraph dates  = new Paragraph( "DATE : "+" "+date.toString()+" "+ "TIME "+" "+ "3 HOURS ", font);
+            dates.setSpacingBefore(50f);
+            document.add(dates);
+
+
+            Paragraph instructions = new Paragraph( "INSTRUCTIONS TO CANDIDATES", font);
+            Paragraph ques  = new Paragraph( "Answer any four questions", italics);
+            instructions.setSpacingBefore(50f);
+            document.add(instructions);
+            document.add(ques);
+            document.newPage();
 
 
 
