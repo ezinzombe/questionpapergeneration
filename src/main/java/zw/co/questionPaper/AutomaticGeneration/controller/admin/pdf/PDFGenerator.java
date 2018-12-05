@@ -1,6 +1,10 @@
 package zw.co.questionPaper.AutomaticGeneration.controller.admin.pdf;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -21,7 +25,7 @@ public class PDFGenerator {
 
     private static Logger logger = LoggerFactory.getLogger(PDFGenerator.class);
 
-    public static ByteArrayInputStream examPDFReport(List<Question> questions) throws IOException {
+    public static ByteArrayInputStream examPDFReport(List<Question> questions) throws IOException, ParseException {
         Document document = new Document();
         /** Path to the resulting PDF file. */
 
@@ -98,27 +102,35 @@ public class PDFGenerator {
 
 
             Paragraph paper  = new Paragraph( "MAIN PAPER " + " "+" ", font);
-            paper.setSpacingBefore(50f);
+            paper.setSpacingBefore(40f);
             paper.setAlignment(Element.ALIGN_CENTER);
             document.add(paper);
 
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
+
+
+            Date todayWithZeroTime = formatter.parse(formatter.format(date));
             Paragraph name = new Paragraph( examCode+" : "+"   "+" "+ examName, font);
-            name.setSpacingBefore(50f);
+            name.setSpacingBefore(40f);
             document.add(name);
 
-            Paragraph intake  = new Paragraph( "INTAKE: " + " "+" " + periodName, font);
-            intake.setSpacingBefore(50f);
+            Paragraph intake  = new Paragraph( "SEMESTER: " + " "+" " + periodName, font);
+            intake.setSpacingBefore(40f);
             document.add(intake);
 
-            Paragraph dates  = new Paragraph( "DATE : "+" "+date.toString()+" "+ "TIME "+" "+ "3 HOURS ", font);
-            dates.setSpacingBefore(50f);
+            Paragraph dates  = new Paragraph( "DATE : "+getLocalDate(), font);
+            dates.setSpacingBefore(40f);
             document.add(dates);
+
+            Paragraph time  = new Paragraph( "TIME :"+" "+ "3 HOURS ", font);
+            time.setSpacingBefore(40f);
+            document.add(time);
 
 
             Paragraph instructions = new Paragraph( "INSTRUCTIONS TO CANDIDATES", font);
             Paragraph ques  = new Paragraph( "Answer any four questions", italics);
-            instructions.setSpacingBefore(50f);
+            instructions.setSpacingBefore(40f);
             document.add(instructions);
             document.add(ques);
             document.newPage();
@@ -141,6 +153,10 @@ public class PDFGenerator {
         }
 
         return new ByteArrayInputStream(out.toByteArray());
+    }
+
+    public static LocalDate getLocalDate() {
+        return LocalDate.now();
     }
 
 }

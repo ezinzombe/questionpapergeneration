@@ -8,6 +8,7 @@ import zw.co.questionPaper.AutomaticGeneration.domain.Question;
 import zw.co.questionPaper.AutomaticGeneration.domain.Topic;
 import zw.co.questionPaper.AutomaticGeneration.repository.QuestionRepository;import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class QuestionPaperController {
 
     @PostMapping(value = "/questions",
             produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> questionsReport(ExamDTO examDTO) throws IOException {
+    public ResponseEntity<InputStreamResource> questionsReport(ExamDTO examDTO) throws IOException, ParseException {
         System.out.println("==============================================="+examDTO.getCourseName());
         List<Topic> topics = topicRepository.findAllByCourseName(examDTO.getCourseName());
 
